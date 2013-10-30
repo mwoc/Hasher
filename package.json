@@ -1,5 +1,5 @@
 {
-  "name": "hasher",
+  "name": "hasher-onecom-mw-tmp",
   "version": "1.2.0",
   "description": "Hasher is a set of JavaScript functions to control browser history for rich-media websites and applications",
   "main": "dist/js/hasher.js",
@@ -21,5 +21,8 @@
   "license": "MIT",
   "dependencies": {
     "signals": ">0.7 <2.0"
+  },
+  "publishConfig": {
+    "registry": "http://npm.one.com/"
   }
 }
