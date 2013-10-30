@@ -78,7 +78,11 @@ var hasher = (function(window){
         //parsed full URL instead of getting window.location.hash because Firefox decode hash value (and all the other browsers don't)
         //also because of IE8 bug with hash query in local file [issue #6]
         var result = _hashValRegexp.exec( hasher.getURL() );
-        return (result && result[1])? decodeURIComponent(result[1]) : '';
+        if (hasher.raw) {
+            return (result && result[1])? result[1] : '';
+        } else {
+            return (result && result[1])? decodeURIComponent(result[1]) : '';
+        }
     }
 
     function _getFrameHash(){
@@ -195,7 +199,16 @@ var hasher = (function(window){
          * @type string
          * @constant
          */
-        VERSION : '1.1.4',
+        VERSION : '1.2.0-onecom-tmp',
+
+        /**
+         * Boolean deciding if hasher encodes/decodes the hash or not.
+         * <ul>
+         * <li>default value: false;</li>
+         * </ul>
+         * @type boolean
+         */
+        raw : false,
 
         /**
          * String that should always be added to the end of Hash value.
@@ -335,7 +348,12 @@ var hasher = (function(window){
                 if (path === _hash) {
                     // we check if path is still === _hash to avoid error in
                     // case of multiple consecutive redirects [issue #39]
-                    window.location.hash = '#' + _encodePath(path);
+                    if (hasher.raw) {
+                        window.location.hash = '#' + path;
+                    } else {
+                        window.location.hash = '#' + _encodePath(path);
+                    }
+
                 }
             }
         },
@@ -356,7 +374,11 @@ var hasher = (function(window){
                 if (path === _hash) {
                     // we check if path is still === _hash to avoid error in
                     // case of multiple consecutive redirects [issue #39]
-                    window.location.replace('#' + _encodePath(path));
+                    if (hasher.raw) {
+                        window.location.replace('#' + path);
+                    } else {
+                        window.location.replace('#' + _encodePath(path));
+                    }
                 }
             }
         },
